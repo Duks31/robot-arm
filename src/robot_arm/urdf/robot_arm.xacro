@@ -15,7 +15,7 @@
     <geometry>
       <mesh filename="file://$(find robot_arm)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -36,7 +36,7 @@
     <geometry>
       <mesh filename="file://$(find robot_arm)/meshes/shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="yellow"/>
   </visual>
   <collision>
     <origin xyz="-0.0 -0.0 -0.02" rpy="0 0 0"/>
@@ -57,7 +57,7 @@
     <geometry>
       <mesh filename="file://$(find robot_arm)/meshes/elbow_link_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="ash"/>
   </visual>
   <collision>
     <origin xyz="-1.7e-05 0.114965 -0.174288" rpy="0 0 0"/>
