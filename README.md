@@ -35,7 +35,7 @@ ros2_ws/
 1. Clone this repository into your ROS2 workspace:
 
    ```bash
-   git clone <repository-url> ~/ros2_ws/src
+   git clone https://github.com/Duks31/robot-arm ~/ros2_ws/src
    ```
 
 2. Build the workspace:
