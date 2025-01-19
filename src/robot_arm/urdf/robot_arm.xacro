@@ -1,85 +1,109 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <robot name="robot_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find robot_arm)/urdf/materials.xacro" />
-<xacro:include filename="$(find robot_arm)/urdf/robot_arm.trans" />
-<xacro:include filename="$(find robot_arm)/urdf/robot_arm.gazebo" />
-<link name="base_link">
-  <inertial>
-    <origin xyz="0.0 2.0778993540635682e-17 0.011722603990870939" rpy="0 0 0"/>
-    <mass value="2.363575203952618"/>
-    <inertia ixx="0.007455" iyy="0.007455" izz="0.014604" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find robot_arm)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="black"/>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find robot_arm)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+    <xacro:include filename="$(find robot_arm)/urdf/materials.xacro" />
+    <xacro:include filename="$(find robot_arm)/urdf/robot_arm.trans" />
+    <xacro:include filename="$(find robot_arm)/urdf/ros2_control.xacro" />
+    <!-- <xacro:include filename="$(find robot_arm)/urdf/robot_arm.gazebo" /> -->
 
-<link name="shoulder_link_1">
-  <inertial>
-    <origin xyz="1.104480000447626e-05 -0.014617812901259835 0.08500351021704572" rpy="0 0 0"/>
-    <mass value="1.8523610529051973"/>
-    <inertia ixx="0.005594" iyy="0.003696" izz="0.002207" ixy="1e-06" iyz="0.001088" ixz="-1e-06"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0 -0.0 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find robot_arm)/meshes/shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="yellow"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0 -0.0 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find robot_arm)/meshes/shoulder_link_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+    <link name="world_link">
+        <!-- This is a virtual link with no geometry -->
+    </link>
 
-<link name="elbow_link_1">
-  <inertial>
-    <origin xyz="0.00014621461304581678 -0.06483277607494016 -0.01590018911418939" rpy="0 0 0"/>
-    <mass value="0.27915472131171726"/>
-    <inertia ixx="0.000413" iyy="0.000133" izz="0.000297" ixy="-0.0" iyz="-6.4e-05" ixz="-0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-1.7e-05 0.114965 -0.174288" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find robot_arm)/meshes/elbow_link_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="ash"/>
-  </visual>
-  <collision>
-    <origin xyz="-1.7e-05 0.114965 -0.174288" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find robot_arm)/meshes/elbow_link_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0.0 2.0778993540635682e-17 0.011722603990870939" rpy="0 0 0" />
+            <mass value="2.363575203952618" />
+            <inertia ixx="0.007455" iyy="0.007455" izz="0.014604" ixy="0.0" iyz="0.0" ixz="0.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find robot_arm)/meshes/base_link.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find robot_arm)/meshes/base_link.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
 
-<joint name="Revolute 3" type="continuous">
-  <origin xyz="0.0 0.0 0.02" rpy="0 0 0"/>
-  <parent link="base_link"/>    
-  <child link="shoulder_link_1"/>
-  <axis xyz="0.0 0.0 -1.0"/>
-</joint>
+    <link name="shoulder_link_1">
+        <inertial>
+            <origin xyz="1.104480000447626e-05 -0.014617812901259835 0.08500351021704572"
+                rpy="0 0 0" />
+            <mass value="1.8523610529051973" />
+            <inertia ixx="0.005594" iyy="0.003696" izz="0.002207" ixy="1e-06" iyz="0.001088"
+                ixz="-1e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.0 -0.0 -0.02" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find robot_arm)/meshes/shoulder_link_1.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="yellow" />
+        </visual>
+        <collision>
+            <origin xyz="-0.0 -0.0 -0.02" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find robot_arm)/meshes/shoulder_link_1.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
 
-<joint name="Revolute 4" type="revolute">
-  <origin xyz="1.7e-05 -0.114965 0.154288" rpy="0 0 0"/>
-  <parent link="shoulder_link_1"/>
-  <child link="elbow_link_1"/>
-  <axis xyz="0.0 0.0 1.0"/>
-  <limit upper="2.443461" lower="-2.443461" effort="100" velocity="100"/>
-</joint>
+    <link name="elbow_link_1">
+        <inertial>
+            <origin xyz="0.00014621461304581678 -0.06483277607494016 -0.01590018911418939"
+                rpy="0 0 0" />
+            <mass value="0.27915472131171726" />
+            <inertia ixx="0.000413" iyy="0.000133" izz="0.000297" ixy="-0.0" iyz="-6.4e-05"
+                ixz="-0.0" />
+        </inertial>
+        <visual>
+            <origin xyz="-1.7e-05 0.114965 -0.174288" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find robot_arm)/meshes/elbow_link_1.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="ash" />
+        </visual>
+        <collision>
+            <origin xyz="-1.7e-05 0.114965 -0.174288" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find robot_arm)/meshes/elbow_link_1.stl"
+                    scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
 
+    <joint name="Revolute_3" type="revolute">
+        <origin xyz="0.0 0.0 0.02" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="shoulder_link_1" />
+        <axis xyz="0.0 0.0 -1.0" />
+        <limit upper="3.14" lower="-3.14" effort="100" velocity="100" />
+    </joint>
+
+    <joint name="Revolute_4" type="revolute">
+        <origin xyz="1.7e-05 -0.114965 0.154288" rpy="0 0   0" />
+        <parent link="shoulder_link_1" />
+        <child link="elbow_link_1" />
+        <axis xyz="0.0 0.0 1.0" />
+        <limit upper="2.443461" lower="-2.443461" effort="100" velocity="100" />
+    </joint>
+
+    <joint name="world_to_base" type="fixed">
+        <parent link="world_link" />
+        <child link="base_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <xacro:robot_arm_control name="robot_arm" />
 </robot>
