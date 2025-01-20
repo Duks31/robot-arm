@@ -24,6 +24,8 @@
     <exec_depend>robot_state_publisher</exec_depend>
     <exec_depend>joint_state_publisher</exec_depend>
     <exec_depend>joint_state_publisher_gui</exec_depend>
+    <exec_depend>ros2launch</exec_depend>
+    <exec_depend>rqt_gui</exec_depend>
 
     <depend>ros2_control</depend>
     <depend>ros2_controllers</depend>
@@ -34,8 +36,13 @@
     <depend>position_controllers</depend>
     <depend>velocity_controllers</depend>
     <depend>effort_controllers</depend>
+    <depend>ros_gz_bridge</depend>
+    <depend>ros_gz_sim</depend>
+    <depend>ign_ros2_control</depend>
 
     <export>
         <build_type>ament_cmake</build_type>
+        <gazebo_ros gazebo_model_path="${prefix}/models" />
+        <gazebo_ros gazebo_media_path="${prefix}/models" />
     </export>
 </package>

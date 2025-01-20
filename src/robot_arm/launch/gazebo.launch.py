@@ -1,7 +1,7 @@
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 import os
@@ -24,43 +24,36 @@ def generate_launch_description():
             {'robot_description': robot_urdf}
         ]
     )
-
-    gazebo_server = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('gazebo_ros'),
-                'launch',
-                'gzserver.launch.py'
-            ])
-        ]),
-        launch_arguments={
-            'pause': 'true'
-        }.items()
+    
+    gazebo = ExecuteProcess(
+        cmd=['ign', 'gazebo', '-r', 'empty.sdf'],
+        output='screen'
     )
 
-    gazebo_client = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('gazebo_ros'),
-                'launch',
-                'gzclient.launch.py'
-            ])
-        ])
-    )
-
-    urdf_spawn_node = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
+    spawn_robot = Node(
+        package='ros_gz_sim',
+        executable='create',
         arguments=[
-            '-entity', 'robot_arm',
-            '-topic', 'robot_description'
+            '-topic', 'robot_description',
+            '-name', 'robot_arm',
+            '-allow_renaming', 'true'
         ],
+        output='screen'
+    )
+
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        parameters=[{
+            'config_file': os.path.join(share_dir, 'config', 'bridge_config.yaml'),
+            'qos_overrides./tf_static.publisher.durability': 'transient_local',
+        }],
         output='screen'
     )
 
     return LaunchDescription([
         robot_state_publisher_node,
-        gazebo_server,
-        gazebo_client,
-        urdf_spawn_node,
+        gazebo,
+        spawn_robot,
+        bridge,
     ])

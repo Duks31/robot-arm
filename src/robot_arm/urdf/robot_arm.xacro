@@ -104,6 +104,4 @@
         <child link="base_link" />
         <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
-
-    <xacro:robot_arm_control name="robot_arm" />
 </robot>
