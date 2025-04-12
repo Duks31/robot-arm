@@ -1,3 +1,5 @@
+![Alt Text](./src/assets/image.png)
+
 # ROS2 Robotic Arm Project
 
 This project involves the development of a robotic arm using ROS2 (Robot Operating System 2). The robotic arm is simulated in Gazebo, controlled through ROS2 nodes, and equipped with various configuration and control capabilities.
@@ -75,10 +77,16 @@ ros2 launch robot_arm display.launch.py
 
 - **Controller Configuration**: `config/controller.yaml` defines joint controllers.
 - **URDF/XACRO Models**: Located in `urdf/`, these describe the robotic arm's structure and dynamics.
-- **Gazebo Worlds**: Predefined worlds are in `worlds/`.
 
 ## Scripts
 
 - **`scripts/move_arm.py`**: A Python script to command the robotic arm to specific positions.
 
+## Contributing
+Contributions are welcome  :)
+
 *Note: The project is a work in progress.*
+
+```
+[Err] [SystemLoader.cc:94] Failed to load system plugin [libign_ros2_control-system.so] : couldn't find shared library.
+```

@@ -26,13 +26,12 @@
     </ros2control>
 
     <gazebo>
-        <plugin filename="ign_ros2_control-system"
-            name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <plugin filename="libign_ros2_control-system.so"
+            name="ign_ros2_control">
             <robot_param>robot_description</robot_param>
+            <robot_param_node>robot_state_publisher</robot_param_node>
             <parameters>$(find robot_arm)/config/controller.yaml</parameters>
-            <controller_manager_name>controller_manager</controller_manager_name>
             <ros>
-                <namespace>/robot_arm</namespace>
                 <remapping>/robot_description:=/robot_description_full</remapping>
             </ros>
         </plugin>

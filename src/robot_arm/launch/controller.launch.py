@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
 
@@ -27,10 +27,7 @@ def generate_launch_description():
     declare_z = DeclareLaunchArgument("z", default_value="0")
 
     # Launch Gazebo (Ignition)
-    gazebo = ExecuteProcess(
-        cmd=['ign', 'gazebo', '-r', 'empty.sdf'],
-        output='screen'
-    )
+    gazebo = ExecuteProcess(cmd=["ign", "gazebo", "-r", "empty.sdf"], output="screen")
 
     # Nodes
     spawn_robot_node = Node(
@@ -38,29 +35,37 @@ def generate_launch_description():
         executable="create",
         name="spawn_the_robot",
         arguments=[
-            "-topic", "robot_description",
-            "-name", "robot_arm",
-            "-x", LaunchConfiguration("x"),
-            "-y", LaunchConfiguration("y"),
-            "-z", LaunchConfiguration("z"),
-            "-allow_renaming", "true"
+            "-topic",
+            "robot_description",
+            "-name",
+            "robot_arm",
+            "-x",
+            LaunchConfiguration("x"),
+            "-y",
+            LaunchConfiguration("y"),
+            "-z",
+            LaunchConfiguration("z"),
+            "-allow_renaming",
+            "true",
         ],
         output="screen",
     )
 
     bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        name='bridge',
-        parameters=[{
-            'config_file': os.path.join(
-                get_package_share_directory("robot_arm"), 
-                "config", 
-                "bridge_config.yaml"
-            ),
-            'qos_overrides./tf_static.publisher.durability': 'transient_local',
-        }],
-        output='screen'
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="bridge",
+        parameters=[
+            {
+                "config_file": os.path.join(
+                    get_package_share_directory("robot_arm"),
+                    "config",
+                    "bridge_config.yaml",
+                ),
+                "qos_overrides./tf_static.publisher.durability": "transient_local",
+            }
+        ],
+        output="screen",
     )
 
     controller_spawner_node = Node(
@@ -71,7 +76,7 @@ def generate_launch_description():
             "joint1_position_controller",
             "joint2_position_controller",
             "--controller-manager",
-            "/robot_arm/controller_manager",
+            "/controller_manager",
         ],
         parameters=[controllers_config_path],
         output="screen",
@@ -82,16 +87,15 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         parameters=[robot_description, {"use_sim_time": True}],
-        remappings=[("/joint_states", "/robot_arm/joint_states")],
         output="screen",
     )
 
-    rqt_reconfigure_node = Node(
-        package="rqt_gui",
-        executable="rqt_gui",
-        name="rqt_reconfigure",
-        output="screen",
-    )
+    # rqt_reconfigure_node = Node(
+    #     package="rqt_gui",
+    #     executable="rqt_gui",
+    #     name="rqt_reconfigure",
+    #     output="screen",
+    # )
 
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
@@ -100,7 +104,7 @@ def generate_launch_description():
         arguments=[
             "joint_state_broadcaster",
             "--controller-manager",
-            "/robot_arm/controller_manager",
+            "/controller_manager",
         ],
     )
 
@@ -115,14 +119,6 @@ def generate_launch_description():
             spawn_robot_node,
             joint_state_broadcaster_spawner,
             controller_spawner_node,
-            # TimerAction(period=5.0, actions=[spawn_robot_node]),
-            # TimerAction(
-            #     period=2.0,
-            #     actions=[
-            #         joint_state_broadcaster_spawner,
-            #         controller_spawner_node,
-            #     ],
-            # ),
             # rqt_reconfigure_node,
         ]
     )
