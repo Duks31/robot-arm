@@ -84,9 +84,3 @@ ros2 launch robot_arm display.launch.py
 
 ## Contributing
 Contributions are welcome  :)
-
-*Note: The project is a work in progress.*
-
-```
-[Err] [SystemLoader.cc:94] Failed to load system plugin [libign_ros2_control-system.so] : couldn't find shared library.
-```
